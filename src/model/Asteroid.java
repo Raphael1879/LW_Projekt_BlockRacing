@@ -34,7 +34,7 @@ public class Asteroid extends PApplet{
 		}
 	}
 	
-	public void reset() {
+	public void resetAsteroid() {
 		speed = 0;
 		this.y = random(-1000,0-height/2);
 		this.x = random(durchmesser,w.width-durchmesser);
@@ -46,6 +46,10 @@ public class Asteroid extends PApplet{
 			p.dead(true);
 		}
 
+	}
+	
+	public void reset() {
+		speedIncrement = (float) 0.05;
 	}
 	
 	

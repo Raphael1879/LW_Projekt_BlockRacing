@@ -11,8 +11,8 @@ public class Main extends PApplet{
 	ArrayList<Asteroid> asteroids;
 	Player player;
 	Asteroid test;
-	private int gamestate = 1;
-	private int asteroidCount = 5;
+	private int gamestate = 0;
+	private int asteroidCount = 10;
 	
 	
 
@@ -34,9 +34,21 @@ public class Main extends PApplet{
 
 
 	public void draw() {
+		//startscreen state
+		if(gamestate == 0) {
+			drawStartscreen();
+			
+			if(keyPressed) {
+				gamestate = 1;
+			}
+				
+			
+		}
+		
 		
 		//play state
 		if(gamestate == 1) {
+
 			drawGameBackground();
 			player.move();
 			player.draw();
@@ -48,7 +60,7 @@ public class Main extends PApplet{
 				a.draw();
 				a.hit(player, a);
 				if(a.getY()>height+a.getDurchmesser()) {
-					a.reset();
+					a.resetAsteroid();
 				}
 			}
 			
@@ -60,11 +72,28 @@ public class Main extends PApplet{
 		// Gameover state
 		if(gamestate == 2) {
 			drawEndscreen();
-		}		
+			if(keyPressed) {
+				player.reset();
+				for(Asteroid a:asteroids) {
+					a.reset();
+				}
+				gamestate = 0;
+			}
+		}	
+		System.out.println(gamestate);
 	}
 	
 	
 	
+	private void drawStartscreen() {
+		background(30);
+		textSize(30);
+		fill(255,255,255);
+		textAlign(CENTER);
+		text("Press Any Key to Start!",250,250);
+		
+	}
+
 	public void drawGameBackground() {
 		background(0x4e4f57);
 
@@ -80,7 +109,8 @@ public class Main extends PApplet{
 		background(30);
 		textSize(30);
 		fill(255,255,255);
-		text("Your Score Was: " + player.getScore(),100,100);
+		textAlign(CENTER);
+		text("Your Score Was: " + player.getScore(),300,100);
 	}
 	
 

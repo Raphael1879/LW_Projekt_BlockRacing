@@ -46,6 +46,11 @@ public class Player extends PApplet {
 	public void dead(boolean t) {
 		this.dead = t;
 	}
+	
+	public void reset() {
+		this.dead = false;
+		this.score = 0;
+	}
 
 	/**
 	 * @return the x
