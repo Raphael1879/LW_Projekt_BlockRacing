@@ -8,9 +8,10 @@ public class Player extends PApplet {
 	PApplet w;
 	private int color = 0xffff0000;
 	private int score = 0;
+	boolean dead = false;
 	
 	
-	
+
 	public Player(float x, float y, float durchmesser, PApplet w) {
 		this.x = x;
 		this.y = y;
@@ -41,6 +42,10 @@ public class Player extends PApplet {
 		w.text(score, 100, 100);
 		score++;
 	}
+	
+	public void dead(boolean t) {
+		this.dead = t;
+	}
 
 	/**
 	 * @return the x
@@ -56,8 +61,25 @@ public class Player extends PApplet {
 		return y;
 	}
 	
+	/**
+	 * @return the durchmesser
+	 */
+	public float getDurchmesser() {
+		return durchmesser;
+	}
 	
+	/**
+	 * @return the dead
+	 */
+	public boolean getDead() {
+		return dead;
+	}
 	
-	
+	/**
+	 * @return the score
+	 */
+	public int getScore() {
+		return score;
+	}
 	
 }
