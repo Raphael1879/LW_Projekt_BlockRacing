@@ -28,7 +28,8 @@ public class Main extends PApplet{
 		asteroids = new ArrayList<Asteroid>();
 		
 		for(int i = 0;i < asteroidCount ; i++) {
-			asteroids.add(new Asteroid(random(width),random(-500,height/2),this));
+			asteroids.add(new Asteroid(random(width),random(-800,-200),this));
+			
 		}
 	}
 
@@ -72,15 +73,17 @@ public class Main extends PApplet{
 		// Gameover state
 		if(gamestate == 2) {
 			drawEndscreen();
-			if(keyPressed) {
+			if(keyPressed && key == 'r') {
 				player.reset();
 				for(Asteroid a:asteroids) {
 					a.reset();
 				}
 				gamestate = 0;
 			}
+			if(keyPressed && key == 'e') {
+				exit();
+			}
 		}	
-		System.out.println(gamestate);
 	}
 	
 	
@@ -111,6 +114,8 @@ public class Main extends PApplet{
 		fill(255,255,255);
 		textAlign(CENTER);
 		text("Your Score Was: " + player.getScore(),300,100);
+		text("Press R to restart",300,200);
+		text("Press E to Exit",300,300);
 	}
 	
 

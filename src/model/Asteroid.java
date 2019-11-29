@@ -50,6 +50,7 @@ public class Asteroid extends PApplet{
 	
 	public void reset() {
 		speedIncrement = (float) 0.05;
+		resetAsteroid();
 	}
 	
 	
