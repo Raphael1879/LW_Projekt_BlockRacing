@@ -10,6 +10,9 @@ public class Asteroid extends PApplet{
 	PApplet w;
 	private float speed;
 	private float speedIncrement = (float) 0.05;
+	
+	private int colorRed = (int) random(31,189);
+	private int colorGreen = (int) random(18,110);
 
 	public Asteroid(float x, float y,PApplet w) {
 		this.x = x;
@@ -21,7 +24,7 @@ public class Asteroid extends PApplet{
 	
 
 	public void draw() {
-		w.fill(0xff4d3306);
+		w.fill(colorRed,colorGreen,0);
 		w.ellipse(x, y, durchmesser, durchmesser);
 	}
 	

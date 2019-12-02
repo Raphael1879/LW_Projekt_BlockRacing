@@ -9,10 +9,12 @@ import processing.core.PApplet;
 public class Main extends PApplet{
 	
 	ArrayList<Asteroid> asteroids;
+	ArrayList<Bullet> bullets;
 	Player player;
 	Asteroid test;
+	Bullet b;
 	private int gamestate = 0;
-	private int asteroidCount = 10;
+	private int asteroidCount = 5;
 	
 	
 
@@ -26,6 +28,7 @@ public class Main extends PApplet{
 	public void setup() {
 		player = new Player(100,700,50,this);
 		asteroids = new ArrayList<Asteroid>();
+		bullets = new ArrayList<Bullet>();
 		
 		for(int i = 0;i < asteroidCount ; i++) {
 			asteroids.add(new Asteroid(random(width),random(-800,-200),this));
@@ -49,11 +52,28 @@ public class Main extends PApplet{
 		
 		//play state
 		if(gamestate == 1) {
-
+			
 			drawGameBackground();
+			
+			//Bullets
+			if(mousePressed) {
+				bullets.add(new Bullet(this));
+			}
+			
+			for(Bullet b: bullets) {
+				b.shoot();
+				if(b.getY() < 0){
+
+				}
+			}
+			System.out.println(bullets.size());
+			
+			//draw player
 			player.move();
 			player.draw();
 			player.scoreUp();		
+			
+			
 			
 			// for every Asteroid Object 
 			for(Asteroid a:asteroids) {
@@ -79,6 +99,7 @@ public class Main extends PApplet{
 					a.reset();
 				}
 				gamestate = 0;
+				bullets.clear();
 			}
 			if(keyPressed && key == 'e') {
 				exit();
