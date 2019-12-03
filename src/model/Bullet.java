@@ -17,27 +17,13 @@ public class Bullet {
 	
 	
 
-
-
-
 	public void shoot() {
 		w.stroke(255);
 		w.ellipse(x, y, this.durchmesser, this.durchmesser);
-		move();
-	}
-
-	
-	public void move() {
 		this.y = this.y - speed;
 	}
-	
-	
-	/**
-	 * @param speed the speed to set
-	 */
-	public void setSpeed(float speed) {
-		this.speed = speed;
-	}
+
+
 
 	
 	/**

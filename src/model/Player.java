@@ -2,12 +2,19 @@ package model;
 
 import processing.core.PApplet;
 
+/**
+ * Creates The Player
+ * @author 183857
+ *
+ */
 public class Player extends PApplet {
 	
 	private float x,y,durchmesser;
 	PApplet w;
 	private int color = 0xffff0000;
 	private int score = 0;
+
+
 	boolean dead = false;
 	
 	
@@ -19,7 +26,9 @@ public class Player extends PApplet {
 		this.w = w;
 	}
 
-
+	/**
+	 * Draws the player on the screen
+	 */
 	public void draw() {
 		w.strokeWeight(5);
 		w.stroke(0x000000);
@@ -27,6 +36,9 @@ public class Player extends PApplet {
 		w.ellipse(x, y, durchmesser, durchmesser);
 	}
 	
+	/**
+	 * Moves the Player to the current Mouse X position
+	 */
 	public void move() {
 		this.x = w.mouseX;
 		if(this.x + this.durchmesser/2 > w.width) {
@@ -37,16 +49,25 @@ public class Player extends PApplet {
 		}
 	}
 	
-	
+	/**
+	 * Increases the Score and displays it on the screen
+	 */
 	public void scoreUp() {
 		w.text(score, 100, 100);
 		score++;
 	}
 	
+	/**
+	 * Sets the boolean dead
+	 * @param t true or false
+	 */
 	public void dead(boolean t) {
 		this.dead = t;
 	}
 	
+	/**
+	 * resets the score and player
+	 */
 	public void reset() {
 		this.dead = false;
 		this.score = 0;
@@ -87,4 +108,10 @@ public class Player extends PApplet {
 		return score;
 	}
 	
+	/**
+	 * @param score the score to set
+	 */
+	public void addScore(int score) {
+		this.score = this.score + score;
+	}
 }

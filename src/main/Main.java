@@ -9,19 +9,24 @@ import processing.core.PApplet;
 public class Main extends PApplet{
 	
 	ArrayList<Asteroid> asteroids;
+	ArrayList<ScoreAsteroid> scoreAsteroids;
 	ArrayList<Bullet> bullets;
 	Player player;
 	Asteroid test;
 	Bullet b;
+	ScoreAsteroid scoreAsteroid;
 	private int gamestate = 0;
-	private int asteroidCount = 5;
-	
+	private int asteroidCount = 0;
+	private boolean canShoot = true;
+	int shootTimer = 0;
+	int shootCooldown = 50;
+	int scoreAsteroidCooldown = 20;
 	
 
 	public static void main(String[] args) {
 		PApplet.main("main.Main");
 	}
-	
+
 	public void settings() {
 		size(700,800);
 	}
@@ -29,6 +34,8 @@ public class Main extends PApplet{
 		player = new Player(100,700,50,this);
 		asteroids = new ArrayList<Asteroid>();
 		bullets = new ArrayList<Bullet>();
+		scoreAsteroid = new ScoreAsteroid(random(width),random(-800,-200),this);
+
 		
 		for(int i = 0;i < asteroidCount ; i++) {
 			asteroids.add(new Asteroid(random(width),random(-800,-200),this));
@@ -55,18 +62,31 @@ public class Main extends PApplet{
 			
 			drawGameBackground();
 			
+			
+			
 			//Bullets
-			if(mousePressed) {
+			if(mousePressed && canShoot == true) {
 				bullets.add(new Bullet(this));
+				canShoot = false;
+			}
+			
+			if (!canShoot) {
+				shootTimer++;
+				if(shootTimer > shootCooldown) {
+					canShoot=true;
+					shootTimer = 0;
+				}
 			}
 			
 			for(Bullet b: bullets) {
 				b.shoot();
-				if(b.getY() < 0){
-
+				if(b.getY() < 0) {
+					//System.out.println("dead");
 				}
 			}
-			System.out.println(bullets.size());
+			
+			
+			//System.out.println(bullets.size());
 			
 			//draw player
 			player.move();
@@ -75,7 +95,7 @@ public class Main extends PApplet{
 			
 			
 			
-			// for every Asteroid Object 
+			// for every Asteroid Object s
 			for(Asteroid a:asteroids) {
 				a.fall(player);
 				a.draw();
@@ -85,10 +105,26 @@ public class Main extends PApplet{
 				}
 			}
 			
+			// if Player is Dead switch to Gameover state
 			if (player.getDead() == true) {
 				this.gamestate = 2;
 			}
-		}
+			
+			
+			//Spawn Score Asteroid
+			scoreAsteroidCooldown--;
+			System.out.println(scoreAsteroid.hit(player,scoreAsteroid));
+			System.out.println(scoreAsteroidCooldown);
+			if(scoreAsteroidCooldown < 0) {
+				scoreAsteroid.draw();
+				scoreAsteroid.fall(player);
+				scoreAsteroid.hit(player, scoreAsteroid);
+			}
+
+			
+			
+			
+		}// Play state end
 		
 		// Gameover state
 		if(gamestate == 2) {
