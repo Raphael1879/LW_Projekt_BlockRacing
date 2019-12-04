@@ -1,5 +1,6 @@
 package model;
 
+import interfaces.Asteroids;
 import processing.core.PApplet;
 
 
@@ -8,17 +9,17 @@ import processing.core.PApplet;
  * @author 183857
  *
  */
-public class Asteroid extends PApplet{
+public class Asteroid implements Asteroids{
 	
 	protected float x;
 	protected float y;
 	protected float durchmesser;
 	PApplet w;
 	protected float speed;
-	private float speedIncrement = (float) 0.05;
+	private float speedIncrement;
 	
-	private int colorRed = (int) random(31,189);
-	private int colorGreen = (int) random(18,110);
+	private int colorRed;
+	private int colorGreen;
 	
 	
 	/**
@@ -31,8 +32,10 @@ public class Asteroid extends PApplet{
 		this.x = x;
 		this.y = y;
 		this.w = w;
-		this.durchmesser = random(20,150);
-		
+		this.durchmesser = w.random(50,150);
+		speedIncrement = (float) 0.05;
+		colorRed = (int) w.random(31,189);
+		colorGreen = (int) w.random(18,110);
 	}
 	
 
@@ -51,21 +54,12 @@ public class Asteroid extends PApplet{
 	public void fall(Player p) {
 		this.y = this.y + speed;
 		speed = speed + speedIncrement;
+		System.out.println(speedIncrement);
 		if (p.getScore()% 300 == 0) {
-			speedIncrement = (float) (speedIncrement +0.01);
-			System.out.println(speedIncrement);
+			speedIncrement = (float) (speedIncrement + 0.01);
 		}
 	}
 	
-	/**
-	 * Resets the Asteroid, sets random x and y cords, and size
-	 */
-	public void resetAsteroid() {
-		speed = 0;
-		this.y = random(-1000,0-height/2);
-		this.x = random(durchmesser,w.width-durchmesser);
-		this.durchmesser = random(20,150);
-	}
 	
 	/**
 	 * Detects if an Asteroid comes in contact with the player
@@ -73,9 +67,20 @@ public class Asteroid extends PApplet{
 	 * @param a The Player object
 	 * @return 
 	 */
-	public boolean hit(Player p, Asteroid a) {
-		if(dist(p.getX(), p.getY(), a.getX(), a.getY()) < p.getDurchmesser()/2 + a.getDurchmesser()/2) {
+	public void hit(Player p, Asteroid a) {
+		if(w.dist(p.getX(), p.getY(), a.getX(), a.getY()) < p.getDurchmesser()/2 + a.getDurchmesser()/2) {
 			p.dead(true);
+		}
+	}
+	
+	/**
+	 * Detects if an Asteroid is hit by a Bullet
+	 * @param b Bullet Object
+	 * @param a Asteroid Object
+	 * @return true if hit , false if not hit
+	 */
+	public boolean hitBullet(Bullet b, Asteroid a) {
+		if(w.dist(b.getX(), b.getY(), a.getX(), a.getY()) < b.getDurchmesser()/2 + a.getDurchmesser()/2) {
 			return true;
 		}
 		return false;
@@ -89,6 +94,13 @@ public class Asteroid extends PApplet{
 		resetAsteroid();
 	}
 	
+	
+	public void resetAsteroid() {
+		this.y = w.random(-1000,0-w.height/2);
+		this.x = w.random(durchmesser,w.width-durchmesser);
+		this.durchmesser = w.random(50,150);
+		speed = 0;
+	}
 	
 	/**
 	 * @return the x

@@ -5,6 +5,7 @@ import processing.core.PApplet;
 public class ScoreAsteroid extends Asteroid {
 	
 	private boolean isCollected;
+	private boolean isHit;
 
 	public ScoreAsteroid(float x, float y, PApplet w) {
 		super(x, y, w);
@@ -13,24 +14,28 @@ public class ScoreAsteroid extends Asteroid {
 	}
 	
 	
-	public boolean hit(Player p, Asteroid a) {
-		if(dist(p.getX(), p.getY(), a.getX(), a.getY()) < p.getDurchmesser()/2 + a.getDurchmesser()/2 && !isCollected) {
+	public void hit(Player p, Asteroid a) {
+		if(w.dist(p.getX(), p.getY(), a.getX(), a.getY()) < p.getDurchmesser()/2 + a.getDurchmesser()/2 && !isCollected) {
 			p.addScore(1000);
 			isCollected = true;
-			this.reset();
-			return true;
+			isHit = true;
+		} else {
+			isHit = false;
 		}
-		return false;
 	}
 	
 
-	public void resetAsteroid() {
+
+
+
+	public void reset() {
 		this.speed = 0;
-		this.y = random(-1000,0-height/2);
-		this.x = random(durchmesser,w.width-durchmesser);
+		this.y = w.random(-1000,0-w.height/2);
+		this.x = w.random(durchmesser,w.width-durchmesser);
 		isCollected = false;
 		
 	}
+	
 	
 	public void draw() {
 		w.fill(255,255,0);
@@ -38,4 +43,11 @@ public class ScoreAsteroid extends Asteroid {
 		w.ellipse(x, y, durchmesser, durchmesser);
 	}
 
+	
+	/**
+	 * @return the cooldown
+	 */
+	public boolean isHit() {
+		return isHit;
+	}
 }

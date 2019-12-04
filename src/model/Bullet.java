@@ -4,8 +4,8 @@ import processing.core.PApplet;
 
 public class Bullet {
 	private float x,y;
-	private float durchmesser = 5;
-	private float speed = 16;
+	private float durchmesser = 5; // normal: 5
+	private float speed = (float) 16; //normal: 16
 	PApplet w;
 
 	public Bullet(PApplet w) {
@@ -18,7 +18,8 @@ public class Bullet {
 	
 
 	public void shoot() {
-		w.stroke(255);
+		w.stroke(0);
+		w.fill(0);
 		w.ellipse(x, y, this.durchmesser, this.durchmesser);
 		this.y = this.y - speed;
 	}

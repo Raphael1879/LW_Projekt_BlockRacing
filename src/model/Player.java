@@ -7,7 +7,7 @@ import processing.core.PApplet;
  * @author 183857
  *
  */
-public class Player extends PApplet {
+public class Player {
 	
 	private float x,y,durchmesser;
 	PApplet w;
