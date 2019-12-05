@@ -18,12 +18,12 @@ public class Main extends PApplet{
 	private Asteroid test;
 	private ScoreAsteroid scoreAsteroid;
 	private int gamestate = 0; // 0 = Startscreen, 1 = Play State, 3 = Gameover
-	private int asteroidCount = 10;
+	private int asteroidCount = 1;
 	
 	
 	private boolean canShoot = true;
 	int shootTimer = 0; //dont touch
-	int shootCooldown = 30; //time between shots
+	int shootCooldown = 200; //time between shots
 	int scoreAsteroidCooldown = (int) random(500,1500);
 	
 
@@ -32,19 +32,21 @@ public class Main extends PApplet{
 	}
 
 	public void settings() {
-		size(700,800);
+		size(900,1050);
 	}
 	public void setup() {
-		player = new Player(100,700,50,this);
+		frameRate(80);
+		
+		player = new Player(100,height-100,50,this);
 		asteroids = new ArrayList<Asteroid>();
 		bullets = new LinkedList<Bullet>();
 		scoreAsteroid = new ScoreAsteroid(random(width),random(-800,-200),this);
 
 		
 		for(int i = 0;i < asteroidCount ; i++) {
-			asteroids.add(new Asteroid(random(width),random(-800,-200),this));
-			
+			addRandomAsteroid();
 		}
+		
 	}
 
 
@@ -84,6 +86,14 @@ public class Main extends PApplet{
 					shootTimer = 0;
 				}
 			}
+			
+			fill(255);
+			if(canShoot) {
+				text("Can Shoot",100,200);
+			} else {
+				text("on Cooldown",100,200);
+			}
+			
 			// Moves every Bullet
 			for(Bullet b: bullets) {
 				b.shoot();
@@ -117,6 +127,12 @@ public class Main extends PApplet{
 				}
 				
 
+			}
+			
+			// adds Asteroid every 1000 Score
+			if(player.getScore() % 1000 == 0) {
+				addRandomAsteroid();
+				asteroidCount++;
 			}
 			
 			//Spawn Score Asteroid
@@ -175,12 +191,15 @@ public class Main extends PApplet{
 		background(0x4e4f57);
 
 		stroke(0x00000000);		
-		line(0,696, width, 696);
-		line(0,704, width, 704);
+		line(0,height - 100 - 4, width, height - 100 - 4);
+		line(0,height - 100 + 4, width, height - 100 + 4);
 		
 		stroke(0xffff0000);
-		line(0,700, width, 700);
+		line(0,height - 100, width, height -100);
+		
+		text(asteroidCount, 500,500);
 	}
+	
 	
 	public void drawEndscreen() {
 		background(30);
@@ -192,5 +211,20 @@ public class Main extends PApplet{
 		text("Press E to Exit",300,300);
 	}
 	
+	public void addRandomAsteroid() {
+		int r = (int) random(1,4);
+		switch (r) {
+		case 1:
+			asteroids.add(new BigAsteroid(random(width),random(-800,-200),this));
+			break;
+		case 2:
+			asteroids.add(new MediumAsteroid(random(width),random(-800,-200),this));
+			break;
+		case 3:
+			asteroids.add(new SmallAsteroid(random(width),random(-800,-200),this));
+			break;
+		}
+		System.out.println(r);
+	}
 
 }

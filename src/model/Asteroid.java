@@ -9,7 +9,7 @@ import processing.core.PApplet;
  * @author 183857
  *
  */
-public class Asteroid implements Asteroids{
+public abstract class Asteroid{
 	
 	protected float x;
 	protected float y;
@@ -33,7 +33,7 @@ public class Asteroid implements Asteroids{
 		this.y = y;
 		this.w = w;
 		this.durchmesser = w.random(50,150);
-		speedIncrement = (float) 0.05;
+		speedIncrement = (float) 0.025;
 		colorRed = (int) w.random(31,189);
 		colorGreen = (int) w.random(18,110);
 	}
@@ -54,9 +54,8 @@ public class Asteroid implements Asteroids{
 	public void fall(Player p) {
 		this.y = this.y + speed;
 		speed = speed + speedIncrement;
-		System.out.println(speedIncrement);
-		if (p.getScore()% 300 == 0) {
-			speedIncrement = (float) (speedIncrement + 0.01);
+		if (p.getScore()% 500 == 0) {
+			speedIncrement = (float) (speedIncrement + 0.005);
 		}
 	}
 	
@@ -76,7 +75,7 @@ public class Asteroid implements Asteroids{
 	/**
 	 * Detects if an Asteroid is hit by a Bullet
 	 * @param b Bullet Object
-	 * @param a Asteroid Object
+	 * @param a Asteroid Objects
 	 * @return true if hit , false if not hit
 	 */
 	public boolean hitBullet(Bullet b, Asteroid a) {
@@ -98,7 +97,6 @@ public class Asteroid implements Asteroids{
 	public void resetAsteroid() {
 		this.y = w.random(-1000,0-w.height/2);
 		this.x = w.random(durchmesser,w.width-durchmesser);
-		this.durchmesser = w.random(50,150);
 		speed = 0;
 	}
 	

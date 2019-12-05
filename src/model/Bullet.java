@@ -11,7 +11,7 @@ public class Bullet {
 	public Bullet(PApplet w) {
 		this.w = w;
 		this.x = w.mouseX;
-		this.y = 700;
+		this.y = w.height - 100;
 
 	}
 	

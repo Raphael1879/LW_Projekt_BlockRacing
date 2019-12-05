@@ -52,8 +52,10 @@ public class Player {
 	/**
 	 * Increases the Score and displays it on the screen
 	 */
+	int scoreInterval = 0;
 	public void scoreUp() {
-		w.text(score, 100, 100);
+		w.fill(255);
+		w.text("Score: " + score, 100, 100);
 		score++;
 	}
 	
