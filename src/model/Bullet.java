@@ -19,7 +19,7 @@ public class Bullet {
 
 	public void shoot() {
 		w.stroke(0);
-		w.fill(0);
+		w.fill(255);
 		w.ellipse(x, y, this.durchmesser, this.durchmesser);
 		this.y = this.y - speed;
 	}

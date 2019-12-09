@@ -23,7 +23,7 @@ public class Main extends PApplet{
 	
 	private boolean canShoot = true;
 	int shootTimer = 0; //dont touch
-	int shootCooldown = 15; //time between shots
+	int shootCooldown = 40; //time between shots
 	int scoreAsteroidCooldown = (int) random(500,1500);
 	
 
@@ -144,12 +144,12 @@ public class Main extends PApplet{
 				scoreAsteroid.fall(player);
 				scoreAsteroid.hit(player, scoreAsteroid);
 				if(scoreAsteroid.isHit() == true) {
-					scoreAsteroid.reset();
+					scoreAsteroid.resetAsteroid();
 					scoreAsteroidCooldown = (int) random(500,1500);
 				}
 				if(scoreAsteroid.getY() > this.height ) {
 					scoreAsteroidCooldown = (int) random(500,1500);
-					scoreAsteroid.reset();
+					scoreAsteroid.resetAsteroid();
 				}
 			} 
 
