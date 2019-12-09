@@ -23,7 +23,7 @@ public class Main extends PApplet{
 	
 	private boolean canShoot = true;
 	int shootTimer = 0; //dont touch
-	int shootCooldown = 200; //time between shots
+	int shootCooldown = 15; //time between shots
 	int scoreAsteroidCooldown = (int) random(500,1500);
 	
 
@@ -100,7 +100,10 @@ public class Main extends PApplet{
 			}
 			
 			 // Updates List to only contain Bullets that are in the Game Window
-			bullets = bullets.stream().filter(b -> b.getY() > 0 - b.getDurchmesser()).collect(Collectors.toList());
+			bullets = bullets
+					.stream()
+					.filter(b -> b.getY() > 0 - b.getDurchmesser())
+					.collect(Collectors.toList());
 			
 			
 			//draw player
@@ -115,18 +118,17 @@ public class Main extends PApplet{
 				a.fall(player);
 				a.draw();
 				a.hit(player, a);
+				//reset Asteroids that fell of screen
 				if(a.getY()>height+a.getDurchmesser()) {
 					a.resetAsteroid();
 				}
 				
-				for(Bullet b:bullets) {
-					if(a.hitBullet(b, a)) {
-						a.resetAsteroid();
-						
-					}
-				}
+				//remove bullets that hit an Asteroid				
+				bullets = bullets
+						.stream()
+						.filter(b -> !a.hitBullet(b, a))
+						.collect(Collectors.toList());
 				
-
 			}
 			
 			// adds Asteroid every 1000 Score

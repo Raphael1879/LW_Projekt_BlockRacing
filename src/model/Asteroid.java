@@ -11,13 +11,15 @@ import processing.core.PApplet;
  */
 public abstract class Asteroid{
 	
+	PApplet w;
+	
 	protected float x;
 	protected float y;
 	protected float durchmesser;
-	PApplet w;
 	protected float speed;
+	protected int hitpoints;
 	private float speedIncrement;
-	
+
 	private int colorRed;
 	private int colorGreen;
 	
@@ -45,6 +47,8 @@ public abstract class Asteroid{
 	public void draw() {
 		w.fill(colorRed,colorGreen,0);
 		w.ellipse(x, y, durchmesser, durchmesser);
+		w.fill(255);
+		w.text(hitpoints, x, y+10);
 	}
 	
 	/**
@@ -80,6 +84,7 @@ public abstract class Asteroid{
 	 */
 	public boolean hitBullet(Bullet b, Asteroid a) {
 		if(w.dist(b.getX(), b.getY(), a.getX(), a.getY()) < b.getDurchmesser()/2 + a.getDurchmesser()/2) {
+			a.resetAsteroid();
 			return true;
 		}
 		return false;
@@ -130,4 +135,7 @@ public abstract class Asteroid{
 	public float getSpeed() {
 		return speed;
 	}
+
+
+
 }
