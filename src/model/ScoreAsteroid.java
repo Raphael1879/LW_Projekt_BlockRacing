@@ -1,11 +1,13 @@
 package model;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class ScoreAsteroid extends Asteroid {
 	
 	private boolean isCollected;
-
+	private PImage money;
+	
 	public ScoreAsteroid(float x, float y, PApplet w) {
 		super(x, y, w);
 		durchmesser = 30;
@@ -13,6 +15,8 @@ public class ScoreAsteroid extends Asteroid {
 		colorRed = 215;
 		colorGreen = 215;
 		colorBlue = 0;
+		money = w.loadImage("../images/money.png");
+		money.resize((int)durchmesser,(int)durchmesser);
 	}
 			
 	public boolean isCollected(Player p, Asteroid a) {
@@ -26,11 +30,8 @@ public class ScoreAsteroid extends Asteroid {
 	}
 		
 	public void draw() {
-		w.stroke(colorRed,colorGreen,colorBlue);
-		w.fill(colorRed,colorGreen,colorBlue);
-		w.ellipse(x, y, durchmesser, durchmesser);
-		w.fill(255);
-		w.text("P", x, y+10);
+		w.imageMode(3);
+		w.image(money,x,y);
 	}
 	
 	public void resetAsteroid() {
@@ -39,4 +40,5 @@ public class ScoreAsteroid extends Asteroid {
 		speed = 0;
 		isCollected = false;
 	}
+
 }

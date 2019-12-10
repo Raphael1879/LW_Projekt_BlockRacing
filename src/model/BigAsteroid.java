@@ -2,13 +2,18 @@ package model;
 
 import interfaces.Asteroids;
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class BigAsteroid extends Asteroid{
+	
+	private PImage asteroid;
 
 	public BigAsteroid(float x, float y, PApplet w) {
 		super(x, y, w);
 		this.durchmesser = 150;
 		this.hitpoints = 3;
+		asteroid = w.loadImage("../images/asteroid.png");
+		asteroid.resize((int)durchmesser,(int)durchmesser);
 	}
 
 	/**
@@ -27,6 +32,15 @@ public class BigAsteroid extends Asteroid{
 			return true;
 		}
 		return false;
+	}
+	
+	
+	/**
+	 * Draws Asteroid on the screen
+	 */
+	public void draw() {
+		w.imageMode(3);
+		w.image(asteroid, x, y);
 	}
 	
 	public void resetAsteroid() {

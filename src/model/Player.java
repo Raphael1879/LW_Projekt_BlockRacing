@@ -1,6 +1,7 @@
 package model;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
  * Creates The Player
@@ -15,7 +16,7 @@ public class Player {
 	private int score;
 
 	boolean dead = false;
-	
+	private PImage rocket;
 	
 
 	public Player(float x, float y, float durchmesser, PApplet w) {
@@ -25,6 +26,8 @@ public class Player {
 		this.w = w;
 		color = 0xffff0000;
 		score= 0;
+		rocket =  w.loadImage("../images/rocket.png");
+		rocket.resize(80,120);
 	}
 
 	/**
@@ -34,7 +37,9 @@ public class Player {
 		w.strokeWeight(5);
 		w.stroke(0x000000);
 		w.fill(color);
-		w.ellipse(x, y, durchmesser, durchmesser);
+		w.imageMode(3);
+		w.image(rocket,x,y+20);
+
 	}
 	
 	/**

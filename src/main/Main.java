@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import model.*;
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class Main extends PApplet{
 	
@@ -17,6 +18,7 @@ public class Main extends PApplet{
 	private Player player;
 	private ScoreAsteroid scoreAsteroid;
 	private BulletUpgrade bulletUpgrade;
+	private PImage background;
 	
 	private int gamestate;
 	private int asteroidCount;
@@ -47,6 +49,10 @@ public class Main extends PApplet{
 		
 		scoreAsteroidCooldown = (int) random(500,1500);
 		bulletUpgradeCooldown = (int) random(250,1000);
+		
+		
+		background = loadImage("../images/space.png");
+		background.resize(width, height);
 		
 		player = new Player(100,height-100,50,this);
 		asteroids = new ArrayList<Asteroid>();
@@ -110,7 +116,7 @@ public class Main extends PApplet{
 			 // Updates List to only contain Bullets that are in the Game Window
 			bullets = bullets
 					.stream()
-					.filter(b -> b.getY() > 0 - b.getDurchmesser())
+					.filter(b -> b.getY() > -50 - b.getDurchmesser())
 					.collect(Collectors.toList());
 			
 			
@@ -211,15 +217,9 @@ public class Main extends PApplet{
 	}
 
 	public void drawGameBackground() {
-		background(0x4e4f57);
-
-		stroke(0x00000000);		
-		line(0,height - 100 - 4, width, height - 100 - 4);
-		line(0,height - 100 + 4, width, height - 100 + 4);
-		
-		stroke(0xffff0000);
-		line(0,height - 100, width, height -100);
-		
+		noTint();
+		imageMode(0);
+		image(background,0,0);
 		text(asteroidCount, 500,500);
 	}
 	
@@ -250,14 +250,18 @@ public class Main extends PApplet{
 	}
 	
 	public void resetGame() {
-		player.reset();
 		gamestate = 0;
+		player.reset();
 		bullets.clear();
 		asteroids.clear();
 		addRandomAsteroid();
 		asteroidCount = 1;
 		scoreAsteroid.reset();
+		scoreAsteroidCooldown = (int) random(500,1500);
+		bulletUpgrade.reset();
+		bulletUpgradeCooldown = (int) random(250,1000);
 		this.shootCooldown = 50;
+		
 	}
 	
 

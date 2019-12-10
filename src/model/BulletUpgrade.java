@@ -1,10 +1,12 @@
 package model;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class BulletUpgrade extends Asteroid {
 
 	private boolean isCollected;
+	private PImage ammoPack;
 	
 	public BulletUpgrade(float x, float y, PApplet w) {
 		super(x, y, w);
@@ -13,6 +15,8 @@ public class BulletUpgrade extends Asteroid {
 		colorRed = 0;
 		colorGreen = 0;
 		colorBlue = 175;
+		ammoPack = w.loadImage("../images/ammo.png");
+		ammoPack.resize((int)durchmesser,(int)durchmesser);
 	}
 		
 	public boolean isCollected(Player p, Asteroid a) {
@@ -25,11 +29,8 @@ public class BulletUpgrade extends Asteroid {
 	}
 	
 	public void draw() {
-		w.stroke(colorRed,colorGreen,colorBlue);
-		w.fill(colorRed,colorGreen,colorBlue);
-		w.ellipse(x, y, durchmesser, durchmesser);
-		w.fill(255);
-		w.text("B", x, y+10);
+		w.imageMode(3);
+		w.image(ammoPack,x,y);
 	}
 	
 	public void resetAsteroid() {

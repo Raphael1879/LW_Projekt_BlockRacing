@@ -1,26 +1,28 @@
 package model;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class Bullet {
 	private float x,y;
 	private float durchmesser = 5; // normal: 5
 	private float speed = (float) 16; //normal: 16
 	PApplet w;
-
+	private PImage laser;
+	
 	public Bullet(PApplet w) {
 		this.w = w;
 		this.x = w.mouseX;
 		this.y = w.height - 100;
-
+		laser = w.loadImage("../images/laser.png");
+		laser.resize((int)durchmesser+10,(int)durchmesser+100);
 	}
 	
 	
 
 	public void shoot() {
-		w.stroke(0);
-		w.fill(255);
-		w.ellipse(x, y, this.durchmesser, this.durchmesser);
+		w.imageMode(3);
+		w.image(laser,x,y+39);
 		this.y = this.y - speed;
 	}
 
