@@ -2,35 +2,34 @@ package model;
 
 import processing.core.PApplet;
 
-public class ScoreAsteroid extends Asteroid {
-	
-	private boolean isCollected;
+public class BulletUpgrade extends Asteroid {
 
-	public ScoreAsteroid(float x, float y, PApplet w) {
+	private boolean isCollected;
+	
+	public BulletUpgrade(float x, float y, PApplet w) {
 		super(x, y, w);
-		durchmesser = 30;
+		durchmesser = 50;
 		isCollected = false;
-		colorRed = 215;
-		colorGreen = 215;
-		colorBlue = 0;
+		colorRed = 0;
+		colorGreen = 0;
+		colorBlue = 175;
 	}
-			
+		
 	public boolean isCollected(Player p, Asteroid a) {
 		if(w.dist(p.getX(), p.getY(), a.getX(), a.getY()) < p.getDurchmesser()/2 + a.getDurchmesser()/2 && !isCollected) {
-			p.addScore(1000);
 			isCollected = true;
 			return true;
 		} else {
 			return false;
 		}
 	}
-		
+	
 	public void draw() {
 		w.stroke(colorRed,colorGreen,colorBlue);
 		w.fill(colorRed,colorGreen,colorBlue);
 		w.ellipse(x, y, durchmesser, durchmesser);
 		w.fill(255);
-		w.text("P", x, y+10);
+		w.text("B", x, y+10);
 	}
 	
 	public void resetAsteroid() {
@@ -39,4 +38,5 @@ public class ScoreAsteroid extends Asteroid {
 		speed = 0;
 		isCollected = false;
 	}
+		
 }

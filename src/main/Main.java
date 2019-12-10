@@ -16,14 +16,17 @@ public class Main extends PApplet{
 	private List<Bullet> bullets;
 	private Player player;
 	private ScoreAsteroid scoreAsteroid;
-	private int gamestate = 0; // 0 = Startscreen, 1 = Play State, 3 = Gameover
-	private int asteroidCount = 1;
+	private BulletUpgrade bulletUpgrade;
 	
+	private int gamestate;
+	private int asteroidCount;
 	
-	private boolean canShoot = true;
-	int shootTimer = 0; //dont touch
-	int shootCooldown = 40; //time between shots
-	int scoreAsteroidCooldown = (int) random(500,1500);
+	private int shootTimer;
+	private boolean canShoot;
+	private int shootCooldown;
+	
+	private int scoreAsteroidCooldown;
+	private int bulletUpgradeCooldown;
 	
 
 	public static void main(String[] args) {
@@ -37,12 +40,21 @@ public class Main extends PApplet{
 	public void setup() {
 		frameRate(80);
 
+		gamestate = 0; // 0 = Startscreen, 1 = Play State, 3 = Gameover 
+		asteroidCount = 1;
+		canShoot = true;
+		shootCooldown = 50; //time between shots
+		
+		scoreAsteroidCooldown = (int) random(500,1500);
+		bulletUpgradeCooldown = (int) random(250,1000);
+		
 		player = new Player(100,height-100,50,this);
 		asteroids = new ArrayList<Asteroid>();
 		bullets = new LinkedList<Bullet>();
 		scoreAsteroid = new ScoreAsteroid(random(width),random(-800,-200),this);
+		bulletUpgrade = new BulletUpgrade(random(width),random(-800,-200),this);
 
-		// Spawn
+		// Spawn Asteroids
 		for(int i = 0;i < asteroidCount ; i++) {
 			addRandomAsteroid();
 		}
@@ -88,11 +100,7 @@ public class Main extends PApplet{
 			}
 			
 			fill(255);
-			if(canShoot) {
-				text("Can Shoot",100,200);
-			} else {
-				text("on Cooldown",100,200);
-			}
+			text("Current Gun Cooldown: " + shootCooldown ,200,200);
 			
 			// Moves every Bullet
 			for(Bullet b: bullets) {
@@ -142,8 +150,7 @@ public class Main extends PApplet{
 			if(scoreAsteroidCooldown < 0) {
 				scoreAsteroid.draw();
 				scoreAsteroid.fall(player);
-				scoreAsteroid.hit(player, scoreAsteroid);
-				if(scoreAsteroid.isHit() == true) {
+				if(scoreAsteroid.isCollected(player, scoreAsteroid)) {
 					scoreAsteroid.resetAsteroid();
 					scoreAsteroidCooldown = (int) random(500,1500);
 				}
@@ -152,8 +159,28 @@ public class Main extends PApplet{
 					scoreAsteroid.resetAsteroid();
 				}
 			} 
-
-			System.out.println(asteroids.size());
+			
+			
+			
+			//Spawn BulletUpgrade
+			bulletUpgradeCooldown--;
+			if(bulletUpgradeCooldown < 0) {
+				bulletUpgrade.draw();
+				bulletUpgrade.fall(player);
+				
+				if(bulletUpgrade.isCollected(player, bulletUpgrade)) {
+					bulletUpgrade.resetAsteroid();
+					bulletUpgradeCooldown = (int) random(250,1000);
+					this.shootCooldown = this.shootCooldown - 2;				
+				}
+				if(bulletUpgrade.getY() > this.height ) {
+					bulletUpgradeCooldown = (int) random(250,1000);
+					bulletUpgrade.resetAsteroid();
+				}
+			} 
+			if(this.shootCooldown < 0) {
+				this.shootCooldown = 0;
+			}
 			
 		}// Play state end
 		
@@ -230,6 +257,8 @@ public class Main extends PApplet{
 		addRandomAsteroid();
 		asteroidCount = 1;
 		scoreAsteroid.reset();
+		this.shootCooldown = 50;
 	}
+	
 
 }

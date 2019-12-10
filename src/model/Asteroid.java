@@ -20,9 +20,9 @@ public abstract class Asteroid implements Asteroids{
 	protected int hitpoints;
 	private float speedIncrement;
 
-	private int colorRed;
-	private int colorGreen;
-	private int colorBlue;
+	protected int colorRed;
+	protected int colorGreen;
+	protected int colorBlue;
 	
 	
 	/**
