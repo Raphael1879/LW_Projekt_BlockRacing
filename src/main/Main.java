@@ -15,7 +15,6 @@ public class Main extends PApplet{
 	private ArrayList<ScoreAsteroid> scoreAsteroids;
 	private List<Bullet> bullets;
 	private Player player;
-	private Asteroid test;
 	private ScoreAsteroid scoreAsteroid;
 	private int gamestate = 0; // 0 = Startscreen, 1 = Play State, 3 = Gameover
 	private int asteroidCount = 1;
@@ -33,16 +32,17 @@ public class Main extends PApplet{
 
 	public void settings() {
 		size(900,1050);
+		fullScreen(1);
 	}
 	public void setup() {
 		frameRate(80);
-		
+
 		player = new Player(100,height-100,50,this);
 		asteroids = new ArrayList<Asteroid>();
 		bullets = new LinkedList<Bullet>();
 		scoreAsteroid = new ScoreAsteroid(random(width),random(-800,-200),this);
 
-		
+		// Spawn
 		for(int i = 0;i < asteroidCount ; i++) {
 			addRandomAsteroid();
 		}
@@ -153,7 +153,7 @@ public class Main extends PApplet{
 				}
 			} 
 
-			
+			System.out.println(asteroids.size());
 			
 		}// Play state end
 		
@@ -161,15 +161,9 @@ public class Main extends PApplet{
 		if(gamestate == 2) {
 			//draw End screen
 			drawEndscreen();
-			//if player presses R the reset
+			//if player presses R then reset
 			if(keyPressed && key == 'r') {
-				player.reset();
-				for(Asteroid a:asteroids) {
-					a.reset();
-				}
-				gamestate = 0;
-				bullets.clear();
-				scoreAsteroid.reset();
+				resetGame();
 			}
 			//if player presses e then exit
 			if(keyPressed && key == 'e') {
@@ -226,7 +220,16 @@ public class Main extends PApplet{
 			asteroids.add(new SmallAsteroid(random(width),random(-800,-200),this));
 			break;
 		}
-		System.out.println(r);
+	}
+	
+	public void resetGame() {
+		player.reset();
+		gamestate = 0;
+		bullets.clear();
+		asteroids.clear();
+		addRandomAsteroid();
+		asteroidCount = 1;
+		scoreAsteroid.reset();
 	}
 
 }

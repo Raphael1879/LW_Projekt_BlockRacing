@@ -3,7 +3,7 @@ package model;
 import interfaces.Asteroids;
 import processing.core.PApplet;
 
-public class MediumAsteroid extends Asteroid implements Asteroids{
+public class MediumAsteroid extends Asteroid{
 
 	public MediumAsteroid(float x, float y, PApplet w) {
 		super(x, y, w);
@@ -34,5 +34,6 @@ public class MediumAsteroid extends Asteroid implements Asteroids{
 		this.x = w.random(durchmesser,w.width-durchmesser);
 		speed = 0;
 		hitpoints = 2;
+		setRandomColor();
 	}
 }

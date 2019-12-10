@@ -9,7 +9,7 @@ import processing.core.PApplet;
  * @author 183857
  *
  */
-public abstract class Asteroid{
+public abstract class Asteroid implements Asteroids{
 	
 	PApplet w;
 	
@@ -22,13 +22,14 @@ public abstract class Asteroid{
 
 	private int colorRed;
 	private int colorGreen;
+	private int colorBlue;
 	
 	
 	/**
 	 * Ctor for Asteroid
-	 * @param x
-	 * @param y
-	 * @param w
+	 * @param x X-pos
+	 * @param y Y-pos
+	 * @param w PApplet Object
 	 */
 	public Asteroid(float x, float y,PApplet w) {
 		this.x = x;
@@ -38,6 +39,7 @@ public abstract class Asteroid{
 		speedIncrement = (float) 0.025;
 		colorRed = (int) w.random(31,189);
 		colorGreen = (int) w.random(18,110);
+		colorBlue = (int) w.random(18,110);
 	}
 	
 
@@ -45,7 +47,7 @@ public abstract class Asteroid{
 	 * Draws Asteroid on the screen
 	 */
 	public void draw() {
-		w.fill(colorRed,colorGreen,0);
+		w.fill(colorRed,colorGreen,colorBlue);
 		w.ellipse(x, y, durchmesser, durchmesser);
 		w.fill(255);
 		w.text(hitpoints, x, y+10);
@@ -103,6 +105,13 @@ public abstract class Asteroid{
 		this.y = w.random(-1000,0-w.height/2);
 		this.x = w.random(durchmesser,w.width-durchmesser);
 		speed = 0;
+		setRandomColor();
+	}
+	
+	public void setRandomColor() {
+		colorRed = (int) w.random(31,189);
+		colorGreen = (int) w.random(18,110);
+		colorBlue = (int) w.random(18,110);
 	}
 	
 	/**

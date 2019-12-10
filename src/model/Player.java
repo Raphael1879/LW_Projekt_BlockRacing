@@ -11,9 +11,8 @@ public class Player {
 	
 	private float x,y,durchmesser;
 	PApplet w;
-	private int color = 0xffff0000;
-	private int score = 0;
-
+	private int color;
+	private int score;
 
 	boolean dead = false;
 	
@@ -24,6 +23,8 @@ public class Player {
 		this.y = y;
 		this.durchmesser = durchmesser;
 		this.w = w;
+		color = 0xffff0000;
+		score= 0;
 	}
 
 	/**

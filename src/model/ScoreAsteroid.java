@@ -22,7 +22,6 @@ public class ScoreAsteroid extends Asteroid {
 		} else {
 			isHit = false;
 		}
-		System.out.println(isCollected);
 	}
 		
 	public void draw() {
