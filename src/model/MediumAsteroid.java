@@ -12,7 +12,7 @@ public class MediumAsteroid extends Asteroid{
 		super(x, y, w);
 		this.durchmesser = 100;
 		this.hitpoints = 2;
-		asteroid = w.loadImage("../images/asteroid.png");
+		asteroid = w.loadImage("../images/mediumAsteroid.png");
 		asteroid.resize((int)durchmesser,(int)durchmesser);
 	}
 

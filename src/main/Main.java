@@ -235,7 +235,7 @@ public class Main extends PApplet{
 	}
 	
 	public void addRandomAsteroid() {
-		int r = (int) random(1,4);
+		int r = 2;//(int) random(1,4);
 		switch (r) {
 		case 1:
 			asteroids.add(new BigAsteroid(random(width),random(-800,-200),this));
