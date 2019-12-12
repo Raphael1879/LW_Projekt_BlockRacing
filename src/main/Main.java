@@ -153,37 +153,41 @@ public class Main extends PApplet{
 			
 			//Spawn Score Asteroid
 			scoreAsteroidCooldown--;
+			// only Spawn when scoreAsteroidCooldown is < 0
 			if(scoreAsteroidCooldown < 0) {
 				scoreAsteroid.draw();
 				scoreAsteroid.fall(player);
+				// when scoreAsteroid is collected
 				if(scoreAsteroid.isCollected(player, scoreAsteroid)) {
 					scoreAsteroid.resetAsteroid();
 					scoreAsteroidCooldown = (int) random(500,1500);
 				}
+				// when scoreAsteroid falls off Screen
 				if(scoreAsteroid.getY() > this.height ) {
 					scoreAsteroidCooldown = (int) random(500,1500);
 					scoreAsteroid.resetAsteroid();
 				}
 			} 
 			
-			
-			
 			//Spawn BulletUpgrade
 			bulletUpgradeCooldown--;
+			// only Spawn when bulletUpgradeCooldown is < 0
 			if(bulletUpgradeCooldown < 0) {
 				bulletUpgrade.draw();
 				bulletUpgrade.fall(player);
-				
+				// when bulletUpgrade is collected
 				if(bulletUpgrade.isCollected(player, bulletUpgrade)) {
 					bulletUpgrade.resetAsteroid();
 					bulletUpgradeCooldown = (int) random(250,1000);
 					this.shootCooldown = this.shootCooldown - 2;				
 				}
+				// when bulletUpgrade falls off Screen
 				if(bulletUpgrade.getY() > this.height ) {
 					bulletUpgradeCooldown = (int) random(250,1000);
 					bulletUpgrade.resetAsteroid();
 				}
 			} 
+			// When the max cooldown is reached
 			if(this.shootCooldown < 0) {
 				this.shootCooldown = 0;
 			}
@@ -206,7 +210,9 @@ public class Main extends PApplet{
 	}
 	
 	
-	
+	/**
+	 * draws Startscreen
+	 */
 	private void drawStartscreen() {
 		background(30);
 		textSize(30);
@@ -216,6 +222,9 @@ public class Main extends PApplet{
 		
 	}
 
+	/**
+	 * draws game Background
+	 */
 	public void drawGameBackground() {
 		noTint();
 		imageMode(0);
@@ -223,7 +232,9 @@ public class Main extends PApplet{
 		text(asteroidCount, 500,500);
 	}
 	
-	
+	/**
+	 * draws Endscreen
+	 */
 	public void drawEndscreen() {
 		background(30);
 		textSize(30);
@@ -234,8 +245,12 @@ public class Main extends PApplet{
 		text("Press E to Exit",300,300);
 	}
 	
+	
+	/**
+	 * adds a random asteroid (Big-,Medium-, SmallAsteroid) to the asteroids ArrayList
+	 */
 	public void addRandomAsteroid() {
-		int r = 2;//(int) random(1,4);
+		int r = (int) random(1,4);
 		switch (r) {
 		case 1:
 			asteroids.add(new BigAsteroid(random(width),random(-800,-200),this));
@@ -249,6 +264,9 @@ public class Main extends PApplet{
 		}
 	}
 	
+	/**
+	 * Resets the game, is only uses in GameoverScreen
+	 */
 	public void resetGame() {
 		gamestate = 0;
 		player.reset();

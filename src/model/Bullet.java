@@ -3,6 +3,11 @@ package model;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+ * object that the player shoots when he holds down m1
+ * @author Raphael Stamm
+ *
+ */
 public class Bullet {
 	private float x,y;
 	private float durchmesser = 5; // normal: 5
@@ -10,6 +15,10 @@ public class Bullet {
 	PApplet w;
 	private PImage laser;
 	
+	/**
+	 * Ctor for Bullet
+	 * @param w
+	 */
 	public Bullet(PApplet w) {
 		this.w = w;
 		this.x = w.mouseX;
@@ -19,15 +28,14 @@ public class Bullet {
 	}
 	
 	
-
+	/**
+	 * Draws the Bullet and moves it at the same time
+	 */
 	public void shoot() {
 		w.imageMode(3);
 		w.image(laser,x,y+39);
 		this.y = this.y - speed;
 	}
-
-
-
 	
 	/**
 	 * @return the x

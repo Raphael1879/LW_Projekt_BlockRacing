@@ -5,8 +5,8 @@ import processing.core.PApplet;
 
 
 /**
- * Creates Asteroid Object the PLayer has to dodge
- * @author 183857
+ * Creates Asteroid Object the Player has to dodge
+ * @author Raphael Stamm
  *
  */
 public abstract class Asteroid implements Asteroids{
@@ -20,10 +20,6 @@ public abstract class Asteroid implements Asteroids{
 	protected int hitpoints;
 	private float speedIncrement;
 
-	protected int colorRed;
-	protected int colorGreen;
-	protected int colorBlue;
-	
 	
 	/**
 	 * Ctor for Asteroid
@@ -35,24 +31,9 @@ public abstract class Asteroid implements Asteroids{
 		this.x = x;
 		this.y = y;
 		this.w = w;
-		this.durchmesser = w.random(50,150);
 		speedIncrement = (float) 0.025;
-		colorRed = (int) w.random(31,189);
-		colorGreen = (int) w.random(18,110);
-		colorBlue = (int) w.random(18,110);
 	}
-	
-
-	/**
-	 * Draws Asteroid on the screen
-	 */
-	public void draw() {
-		w.fill(colorRed,colorGreen,colorBlue);
-		w.ellipse(x, y, durchmesser, durchmesser);
-		w.fill(255);
-		w.text(hitpoints, x, y+10);
-	}
-	
+		
 	/**
 	 * Makes the Asteroid Fall
 	 * @param p To get the Score of the Player
@@ -93,27 +74,23 @@ public abstract class Asteroid implements Asteroids{
 	}
 	
 	/**
-	 * Resets the speed of the Asteroid + calls the function resetAsteroid
+	 * Resets the speed of the Asteroid + calls the function resetAsteroid, is only used in the gameoverScreen when the game is restarted
 	 */
 	public void reset() {
 		speedIncrement = (float) 0.05;
 		resetAsteroid();
 	}
 	
-	
+	/**
+	 * resets the x-pos and y-pos to new random cords, is used when a Asteroid is hit or falls of the screen
+	 */
 	public void resetAsteroid() {
 		this.y = w.random(-1000,0-w.height/2);
 		this.x = w.random(durchmesser,w.width-durchmesser);
 		speed = 0;
-		setRandomColor();
 	}
 	
-	public void setRandomColor() {
-		colorRed = (int) w.random(31,189);
-		colorGreen = (int) w.random(18,110);
-		colorBlue = (int) w.random(18,110);
-	}
-	
+
 	/**
 	 * @return the x
 	 */

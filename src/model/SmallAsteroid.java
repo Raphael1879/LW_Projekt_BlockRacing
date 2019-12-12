@@ -47,6 +47,5 @@ public class SmallAsteroid extends Asteroid{
 		this.x = w.random(durchmesser,w.width-durchmesser);
 		speed = 0;
 		hitpoints = 1;
-		setRandomColor();
 	}
 }

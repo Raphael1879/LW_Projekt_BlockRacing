@@ -12,9 +12,6 @@ public class ScoreAsteroid extends Asteroid {
 		super(x, y, w);
 		durchmesser = 30;
 		isCollected = false;
-		colorRed = 215;
-		colorGreen = 215;
-		colorBlue = 0;
 		money = w.loadImage("../images/money.png");
 		money.resize((int)durchmesser,(int)durchmesser);
 	}
@@ -34,6 +31,9 @@ public class ScoreAsteroid extends Asteroid {
 		w.image(money,x,y);
 	}
 	
+	/**
+	 * resets the x-pos and y-pos to new random cords, is used when a Asteroid is hit or falls of the screen
+	 */
 	public void resetAsteroid() {
 		this.y = w.random(-1000,0-w.height/2);
 		this.x = w.random(durchmesser,w.width-durchmesser);

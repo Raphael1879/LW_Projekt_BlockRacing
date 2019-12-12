@@ -4,6 +4,11 @@ import model.Asteroid;
 import model.Bullet;
 import model.Player;
 
+/**
+ * Interface for every Asteroid Class
+ * @author Raphael Stamm
+ *
+ */
 public interface Asteroids {
 	public void draw();
 	public void fall(Player p);
