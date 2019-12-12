@@ -105,8 +105,7 @@ public class Main extends PApplet{
 				}
 			}
 			
-			fill(255);
-			text("Current Gun Cooldown: " + shootCooldown ,200,200);
+
 			
 			// Moves every Bullet
 			for(Bullet b: bullets) {
@@ -226,10 +225,14 @@ public class Main extends PApplet{
 	 * draws game Background
 	 */
 	public void drawGameBackground() {
+
 		noTint();
 		imageMode(0);
 		image(background,0,0);
-		text(asteroidCount, 500,500);
+		fill(255);
+		text("Score: " + player.getScore(),150,50);
+		text("Cooldown: " + shootCooldown ,150,100);
+		text("Asteroids: " + asteroids.size(),150,150);
 	}
 	
 	/**

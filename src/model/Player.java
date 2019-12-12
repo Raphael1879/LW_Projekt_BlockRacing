@@ -60,8 +60,6 @@ public class Player {
 	 */
 	int scoreInterval = 0;
 	public void scoreUp() {
-		w.fill(255);
-		w.text("Score: " + score, 100, 100);
 		score++;
 	}
 	

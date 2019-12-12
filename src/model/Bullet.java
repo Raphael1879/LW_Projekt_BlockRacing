@@ -23,6 +23,8 @@ public class Bullet {
 		this.w = w;
 		this.x = w.mouseX;
 		this.y = w.height - 100;
+		if(this.x < 25) this.x = 25;
+		if(this.x > w.width-25) this.x = w.width-25;
 		laser = w.loadImage("../images/laser.png");
 		laser.resize((int)durchmesser+10,(int)durchmesser+100);
 	}
