@@ -1,6 +1,5 @@
 package model;
 
-import interfaces.Asteroids;
 import processing.core.PApplet;
 import processing.core.PImage;
 

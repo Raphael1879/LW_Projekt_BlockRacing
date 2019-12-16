@@ -1,15 +1,15 @@
 package model;
 
-import interfaces.Asteroids;
+import interfaces.AsteroidInterface;
 import processing.core.PApplet;
 
 
 /**
- * Creates Asteroid Object the Player has to dodge
+ * Parent class of the 3 AsteroidSize classes, contains all of the basic functions that every Asteroid class has.
  * @author Raphael Stamm
  *
  */
-public abstract class Asteroid implements Asteroids{
+public abstract class Asteroid implements AsteroidInterface{
 	
 	PApplet w;
 	
@@ -51,7 +51,6 @@ public abstract class Asteroid implements Asteroids{
 	 * Detects if an Asteroid comes in contact with the player
 	 * @param p The Asteroid Object
 	 * @param a The Player object
-	 * @return 
 	 */
 	public void hit(Player p, Asteroid a) {
 		if(w.dist(p.getX(), p.getY(), a.getX(), a.getY()) < p.getDurchmesser()/2 + a.getDurchmesser()/2) {
@@ -82,7 +81,7 @@ public abstract class Asteroid implements Asteroids{
 	}
 	
 	/**
-	 * resets the x-pos and y-pos to new random cords, is used when a Asteroid is hit or falls of the screen
+	 * resets the x-pos and y-pos to new random cords, is used when an Asteroid is hit or falls of the screen
 	 */
 	public void resetAsteroid() {
 		this.y = w.random(-1000,0-w.height/2);
@@ -121,7 +120,4 @@ public abstract class Asteroid implements Asteroids{
 	public float getSpeed() {
 		return speed;
 	}
-
-
-
 }

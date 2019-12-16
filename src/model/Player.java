@@ -4,8 +4,8 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
- * Creates The Player
- * @author 183857
+ * the Object that the Player moves
+ * @author Raphael Stamm
  *
  */
 public class Player {
@@ -18,7 +18,13 @@ public class Player {
 	boolean dead = false;
 	private PImage rocket;
 	
-
+	/**
+	 * Ctor for Player
+	 * @param x X-pos
+	 * @param y Y-pos
+	 * @param durchmesser Width and height of players hitbox
+	 * @param w	PApplet window object
+	 */
 	public Player(float x, float y, float durchmesser, PApplet w) {
 		this.x = x;
 		this.y = y;
@@ -37,6 +43,7 @@ public class Player {
 		w.strokeWeight(5);
 		w.stroke(0x000000);
 		w.fill(color);
+		w.noTint();
 		w.imageMode(3);
 		w.image(rocket,x,y+20);
 
@@ -58,7 +65,6 @@ public class Player {
 	/**
 	 * Increases the Score and displays it on the screen
 	 */
-	int scoreInterval = 0;
 	public void scoreUp() {
 		score++;
 	}

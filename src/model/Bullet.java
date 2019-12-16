@@ -31,12 +31,19 @@ public class Bullet {
 	
 	
 	/**
-	 * Draws the Bullet and moves it at the same time
+	 * moves bullet upwards
 	 */
 	public void shoot() {
+		this.y = this.y - speed;
+	}
+	
+	/**
+	 * draws bullet on screen
+	 */
+	public void draw() {
+		w.noTint();
 		w.imageMode(3);
 		w.image(laser,x,y+39);
-		this.y = this.y - speed;
 	}
 	
 	/**

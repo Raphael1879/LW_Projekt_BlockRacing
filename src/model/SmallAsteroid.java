@@ -4,10 +4,23 @@ package model;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+
+/**
+ * child-class of Asteroid, 1 of 3 Asteroid Sizes
+ * @author Raphael Stamm
+ *
+ */
 public class SmallAsteroid extends Asteroid{
 
 	private PImage asteroid;
 	
+	
+	/**
+	 * Ctor for SmallAsteroid
+	 * @param x X-Pos
+	 * @param y Y-Pos
+	 * @param w PApplet Window
+	 */
 	public SmallAsteroid(float x, float y, PApplet w) {
 		super(x, y, w);
 		this.durchmesser = 50;
@@ -42,6 +55,10 @@ public class SmallAsteroid extends Asteroid{
 		w.image(asteroid, x, y);
 	}
 	
+	
+	/**
+	 * resets the x-pos and y-pos to new random cords, is used when a ScoreAsteroid falls of the screen
+	 */
 	public void resetAsteroid() {
 		this.y = w.random(-1000,0-w.height/2);
 		this.x = w.random(durchmesser,w.width-durchmesser);

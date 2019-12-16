@@ -9,7 +9,7 @@ import model.Player;
  * @author Raphael Stamm
  *
  */
-public interface Asteroids {
+public interface AsteroidInterface {
 	public void draw();
 	public void fall(Player p);
 	public void hit(Player p, Asteroid a);

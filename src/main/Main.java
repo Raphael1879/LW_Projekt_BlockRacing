@@ -1,4 +1,4 @@
-package main;
+   package main;
 
 
 import java.util.ArrayList;
@@ -9,11 +9,14 @@ import java.util.stream.Collectors;
 import model.*;
 import processing.core.PApplet;
 import processing.core.PImage;
-
+/**
+ * Controller/Main for all the classes in package model
+ * @author Raphael Stamm
+ *
+ */
 public class Main extends PApplet{
 	
 	private ArrayList<Asteroid> asteroids;
-	private ArrayList<ScoreAsteroid> scoreAsteroids;
 	private List<Bullet> bullets;
 	private Player player;
 	private ScoreAsteroid scoreAsteroid;
@@ -30,7 +33,6 @@ public class Main extends PApplet{
 	private int scoreAsteroidCooldown;
 	private int bulletUpgradeCooldown;
 	
-
 	public static void main(String[] args) {
 		PApplet.main("main.Main");
 	}
@@ -72,59 +74,26 @@ public class Main extends PApplet{
 		//startscreen state
 		if(gamestate == 0) {
 			drawStartscreen();
-			
 			if(keyPressed) {
 				gamestate = 1;
-			}
-				
-			
+			}		
 		}// startscreenstate end
-		
 		
 		//play state
 		if(gamestate == 1) {
-			drawGameBackground();
-			
 			// if Player is Dead switch to Gameover state
-			if (player.getDead() == true) {
+			if (player.getDead()) {
 				this.gamestate = 2;
 			}
 			
-			//If Mouse is clicked then shoot
-			if(mousePressed && canShoot == true) {
-				bullets.add(new Bullet(this));
-				canShoot = false;
-			}
-			
-			//Bullet Cooldown Timer
-			if (!canShoot) {
-				shootTimer++;
-				if(shootTimer > shootCooldown) {
-					canShoot=true;
-					shootTimer = 0;
-				}
-			}
-			
-
-			
-			// Moves every Bullet
-			for(Bullet b: bullets) {
-				b.shoot();
-			}
-			
-			 // Updates List to only contain Bullets that are in the Game Window
-			bullets = bullets
-					.stream()
-					.filter(b -> b.getY() > -50 - b.getDurchmesser())
-					.collect(Collectors.toList());
-			
+			drawGameBackground();
+			shootBulletWhenClicked();	
+			checkIfBulletsAreOut();
 			
 			//draw player
 			player.move();
 			player.draw();
-			player.scoreUp();		
-			
-			
+			player.scoreUp();	
 			
 			// draws and moves every Asteroid and resets them if they go off the screen
 			for(Asteroid a:asteroids) {
@@ -135,13 +104,8 @@ public class Main extends PApplet{
 				if(a.getY()>height+a.getDurchmesser()) {
 					a.resetAsteroid();
 				}
-				
-				//remove bullets that hit an Asteroid				
-				bullets = bullets
-						.stream()
-						.filter(b -> !a.hitBullet(b, a))
-						.collect(Collectors.toList());
-				
+				//remove bullets that hit an Asteroid
+				checkBulletHits(a);
 			}
 			
 			// adds Asteroid every 1000 Score
@@ -150,46 +114,10 @@ public class Main extends PApplet{
 				asteroidCount++;
 			}
 			
-			//Spawn Score Asteroid
-			scoreAsteroidCooldown--;
-			// only Spawn when scoreAsteroidCooldown is < 0
-			if(scoreAsteroidCooldown < 0) {
-				scoreAsteroid.draw();
-				scoreAsteroid.fall(player);
-				// when scoreAsteroid is collected
-				if(scoreAsteroid.isCollected(player, scoreAsteroid)) {
-					scoreAsteroid.resetAsteroid();
-					scoreAsteroidCooldown = (int) random(500,1500);
-				}
-				// when scoreAsteroid falls off Screen
-				if(scoreAsteroid.getY() > this.height ) {
-					scoreAsteroidCooldown = (int) random(500,1500);
-					scoreAsteroid.resetAsteroid();
-				}
-			} 
-			
-			//Spawn BulletUpgrade
-			bulletUpgradeCooldown--;
-			// only Spawn when bulletUpgradeCooldown is < 0
-			if(bulletUpgradeCooldown < 0) {
-				bulletUpgrade.draw();
-				bulletUpgrade.fall(player);
-				// when bulletUpgrade is collected
-				if(bulletUpgrade.isCollected(player, bulletUpgrade)) {
-					bulletUpgrade.resetAsteroid();
-					bulletUpgradeCooldown = (int) random(250,1000);
-					this.shootCooldown = this.shootCooldown - 2;				
-				}
-				// when bulletUpgrade falls off Screen
-				if(bulletUpgrade.getY() > this.height ) {
-					bulletUpgradeCooldown = (int) random(250,1000);
-					bulletUpgrade.resetAsteroid();
-				}
-			} 
-			// When the max cooldown is reached
-			if(this.shootCooldown < 0) {
-				this.shootCooldown = 0;
-			}
+			//spawn special Asteroids
+			spawnScoreAsteroid();
+			spawnBulletUpgrade();
+
 			
 		}// Play state end
 		
@@ -206,26 +134,31 @@ public class Main extends PApplet{
 				exit();
 			}
 		}// Gameover state end	
-	}
+	}//draw end
 	
 	
 	/**
 	 * draws Startscreen
 	 */
 	private void drawStartscreen() {
-		background(30);
+		tint(20,20,20);
+		imageMode(0);
+		image(background,0,0);
+		
+		fill(39, 45, 110);
+		rect(width/2-250,height/2-200,500,320,30);
+		
 		textSize(30);
 		fill(255,255,255);
 		textAlign(CENTER);
-		text("Press Any Key to Start!",250,250);
-		
+		text("Welcome to Asteroid Survival",width/2,height/2-100);
+		text("Press Any key to start!",width/2,height/2);	
 	}
 
 	/**
 	 * draws game Background
 	 */
 	public void drawGameBackground() {
-
 		noTint();
 		imageMode(0);
 		image(background,0,0);
@@ -239,13 +172,22 @@ public class Main extends PApplet{
 	 * draws Endscreen
 	 */
 	public void drawEndscreen() {
-		background(30);
+		tint(20,20,20);
+		imageMode(0);
+		image(background,0,0);
+
+		fill(39, 45, 110);
+		rect(width/2-200,height/2-300,400,500,30);
+		
+		textAlign(CENTER);
+		textSize(50);
+		fill(255,20,20);
+		text("GAMEOVER",width/2,height/2-200);
 		textSize(30);
 		fill(255,255,255);
-		textAlign(CENTER);
-		text("Your Score Was: " + player.getScore(),300,100);
-		text("Press R to restart",300,200);
-		text("Press E to Exit",300,300);
+		text("Your Score Was: " + player.getScore(),width/2,height/2-100);
+		text("Press R to restart",width/2,height/2);
+		text("Press E to Exit",width/2,height/2+100);
 	}
 	
 	
@@ -253,7 +195,7 @@ public class Main extends PApplet{
 	 * adds a random asteroid (Big-,Medium-, SmallAsteroid) to the asteroids ArrayList
 	 */
 	public void addRandomAsteroid() {
-		int r = (int) random(1,4);
+		int r = (int) random(1,4); // random number between 1-3
 		switch (r) {
 		case 1:
 			asteroids.add(new BigAsteroid(random(width),random(-800,-200),this));
@@ -268,7 +210,7 @@ public class Main extends PApplet{
 	}
 	
 	/**
-	 * Resets the game, is only uses in GameoverScreen
+	 * Resets the game, is only used when the player presses r while in gameover screen
 	 */
 	public void resetGame() {
 		gamestate = 0;
@@ -281,9 +223,101 @@ public class Main extends PApplet{
 		scoreAsteroidCooldown = (int) random(500,1500);
 		bulletUpgrade.reset();
 		bulletUpgradeCooldown = (int) random(250,1000);
-		this.shootCooldown = 50;
+		this.shootCooldown = 50;	
+	}
 		
+	/**
+	 * shoots bullets when mouse is clicked
+	 */
+	public void shootBulletWhenClicked() {
+		//If Mouse is clicked then shoot
+		if(mousePressed && canShoot == true) {
+			bullets.add(new Bullet(this));
+			canShoot = false;
+		}
+		//Bullet Cooldown Timer
+		if (!canShoot) {
+			shootTimer++;
+			if(shootTimer > shootCooldown) {
+				canShoot=true;
+				shootTimer = 0;
+			}
+		}
+		
+		// Moves every Bullet
+		for(Bullet b: bullets) {
+			b.draw();
+			b.shoot();
+		}			
 	}
 	
-
+	/**
+	 * Updates List to only contain Bullets that are currently on screen
+	 */
+	public void checkIfBulletsAreOut() {
+		bullets = bullets
+				.stream()
+				.filter(b -> b.getY() > -50 - b.getDurchmesser())
+				.collect(Collectors.toList());
+	}
+	
+	/**
+	 * randomly spawns, draws, and removes ScoreAsteroids
+	 */
+	public void spawnScoreAsteroid() {
+		scoreAsteroidCooldown--;
+		// only Spawn when scoreAsteroidCooldown is < 0
+		if(scoreAsteroidCooldown < 0) {
+			scoreAsteroid.draw();
+			scoreAsteroid.fall(player);
+			// when scoreAsteroid is collected
+			if(scoreAsteroid.isCollected(player, scoreAsteroid)) {
+				scoreAsteroid.resetAsteroid();
+				scoreAsteroidCooldown = (int) random(500,1500);
+			}
+			// when scoreAsteroid falls off Screen
+			if(scoreAsteroid.getY() > this.height ) {
+				scoreAsteroidCooldown = (int) random(500,1500);
+				scoreAsteroid.resetAsteroid();
+			}
+		} 
+	}
+	
+	/**
+	 * randomly spawns, draws, and removes BulletUpgrades
+	 */
+	public void spawnBulletUpgrade() {
+		bulletUpgradeCooldown--;
+		// only Spawn when bulletUpgradeCooldown is < 0
+		if(bulletUpgradeCooldown < 0) {
+			bulletUpgrade.draw();
+			bulletUpgrade.fall(player);
+			// when bulletUpgrade is collected
+			if(bulletUpgrade.isCollected(player, bulletUpgrade)) {
+				bulletUpgrade.resetAsteroid();
+				bulletUpgradeCooldown = (int) random(250,1000);
+				this.shootCooldown = this.shootCooldown - 2;				
+			}
+			// when bulletUpgrade falls off Screen
+			if(bulletUpgrade.getY() > this.height ) {
+				bulletUpgradeCooldown = (int) random(250,1000);
+				bulletUpgrade.resetAsteroid();
+			}
+		} 
+		// When the max cooldown is reached
+		if(this.shootCooldown < 0) {
+			this.shootCooldown = 0;
+		}
+	}
+	/**
+	 * remove bullets that hit an Asteroid	
+	 * @param a Asteroid Object
+	 */
+	public void checkBulletHits(Asteroid a) {		
+		bullets = bullets
+				.stream()
+				.filter(b -> !a.hitBullet(b, a))
+				.collect(Collectors.toList());
+	}
+	
 }
