@@ -12,7 +12,7 @@ import model.Player;
 public interface AsteroidInterface {
 	public void draw();
 	public void fall(Player p);
-	public void hit(Player p, Asteroid a);
+	public void hit(Player p);
 	public boolean hitBullet(Bullet b, Asteroid a);
 	public void reset();
 	public void resetAsteroid();

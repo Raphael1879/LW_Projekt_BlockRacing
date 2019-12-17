@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
- * the Object that the Player moves
+ * Creates a rocket, which the player can controll with the mouse
  * @author Raphael Stamm
  *
  */
@@ -25,16 +25,15 @@ public class Player {
 	 * @param durchmesser Width and height of players hitbox
 	 * @param w	PApplet window object
 	 */
-	public Player(float x, float y, float durchmesser, PApplet w) {
+	public Player(float x, float y, float durchmesser, PApplet w, PImage rocket) {
 		this.x = x;
 		this.y = y;
 		this.durchmesser = durchmesser;
 		this.w = w;
 		color = 0xffff0000;
 		score= 0;
-		rocket =  w.loadImage("../images/rocket.png");
-		rocket.resize(80,120);
-	}
+		this.rocket = rocket;
+	}	
 
 	/**
 	 * Draws the player on the screen

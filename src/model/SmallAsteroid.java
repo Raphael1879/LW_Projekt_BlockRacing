@@ -7,6 +7,7 @@ import processing.core.PImage;
 
 /**
  * child-class of Asteroid, 1 of 3 Asteroid Sizes
+ * creates an Asteroid which the player has to dodge
  * @author Raphael Stamm
  *
  */

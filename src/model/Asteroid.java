@@ -6,13 +6,13 @@ import processing.core.PApplet;
 
 /**
  * Parent class of the 3 AsteroidSize classes, contains all of the basic functions that every Asteroid class has.
+ * creates an Asteroid which the player has to dodge
  * @author Raphael Stamm
  *
  */
 public abstract class Asteroid implements AsteroidInterface{
 	
 	PApplet w;
-	
 	protected float x;
 	protected float y;
 	protected float durchmesser;
@@ -52,8 +52,8 @@ public abstract class Asteroid implements AsteroidInterface{
 	 * @param p The Asteroid Object
 	 * @param a The Player object
 	 */
-	public void hit(Player p, Asteroid a) {
-		if(w.dist(p.getX(), p.getY(), a.getX(), a.getY()) < p.getDurchmesser()/2 + a.getDurchmesser()/2) {
+	public void hit(Player p) {
+		if(w.dist(p.getX(), p.getY(), this.getX(), this.getY()) < p.getDurchmesser()/2 + this.getDurchmesser()/2) {
 			p.dead(true);
 		}
 	}

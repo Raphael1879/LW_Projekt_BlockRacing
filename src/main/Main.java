@@ -32,6 +32,8 @@ public class Main extends PApplet{
 	
 	private int scoreAsteroidCooldown;
 	private int bulletUpgradeCooldown;
+	PImage rocket;
+
 	
 	public static void main(String[] args) {
 		PApplet.main("main.Main");
@@ -43,6 +45,9 @@ public class Main extends PApplet{
 	}
 	public void setup() {
 		frameRate(80);
+		
+		rocket =  loadImage("../images/rocket.png");
+		rocket.resize(80,120);
 
 		gamestate = 0; // 0 = Startscreen, 1 = Play State, 3 = Gameover 
 		asteroidCount = 1;
@@ -56,7 +61,7 @@ public class Main extends PApplet{
 		background = loadImage("../images/space.png");
 		background.resize(width, height);
 		
-		player = new Player(100,height-100,50,this);
+		player = new Player(100,height-100,50,this,rocket);
 		asteroids = new ArrayList<Asteroid>();
 		bullets = new LinkedList<Bullet>();
 		scoreAsteroid = new ScoreAsteroid(random(width),random(-800,-200),this);
@@ -99,7 +104,7 @@ public class Main extends PApplet{
 			for(Asteroid a:asteroids) {
 				a.fall(player);
 				a.draw();
-				a.hit(player, a);
+				a.hit(player);
 				//reset Asteroids that fell of screen
 				if(a.getY()>height+a.getDurchmesser()) {
 					a.resetAsteroid();
